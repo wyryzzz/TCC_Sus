@@ -1,0 +1,49 @@
+.filtros-medicamentos {
+display: flex;
+flex-direction: column;
+gap: 16px;
+background: #ffffff;
+border-radius: 16px;
+padding: 24px;
+margin-bottom: 24px;
+border: 1px solid #e0e7ff;
+box-shadow: 0 2px 6px rgba(37, 99, 235, 0.05);
+
+@media (min-width: 768px) {
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+}
+
+.busca {
+position: relative;
+flex: 1;
+
+.icone-busca {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+input {
+  width: 100%;
+  padding: 11px 16px 11px 40px;
+  border-radius: 10px;
+  border: 1px solid #e0e7ff;
+  background-color: #f9fbff;
+  font-size: 15px;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #93c5fd;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.25);
+  }
+}
+
+}
+}

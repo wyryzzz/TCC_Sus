@@ -1,0 +1,66 @@
+.pagina-funcionarios {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fbff, #f2f6ff);
+  font-family: "Inter", sans-serif;
+  color: #1e293b;
+
+  .conteudo-principal {
+    flex: 1;
+    transition: margin-left 0.3s ease;
+    margin-left: 96px;
+
+    &.menu-aberto {
+      margin-left: 256px;
+    }
+
+    .area-principal {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+    }
+  }
+}
+
+.caixa-carregando,
+.caixa-erro {
+  text-align: center;
+  padding: 24px;
+  font-weight: 500;
+  color: #1e3a8a;
+}
+
+.caixa-erro button {
+  margin-left: 8px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+  .pagina-funcionarios {
+    flex-direction: column;
+
+    .conteudo-principal {
+      margin-left: 0 !important;
+      padding: 16px;
+
+      .area-principal {
+        padding: 16px 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pagina-funcionarios {
+    .cartao-filtro,
+    .cartao-tabela {
+      padding: 12px;
+    }
+  }
+}

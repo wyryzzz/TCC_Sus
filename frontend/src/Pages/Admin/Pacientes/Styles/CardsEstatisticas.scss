@@ -1,0 +1,58 @@
+.cards-estatisticas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 3px;
+
+  .card {
+    flex: 1 1 240px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #dbeafe;
+    box-shadow: 0 3px 8px rgba(59, 130, 246, 0.07);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .icone {
+      padding: 8px;
+      border-radius: 8px;
+
+      &.bg-azul {
+        background: #e0e7ff;
+        color: #1e3a8a;
+      }
+      &.bg-verde {
+        background: #d1fae5;
+        color: #15803d;
+      }
+      &.bg-laranja {
+        background: #fff7ed;
+        color: #9a3412;
+      }
+      &.bg-roxo {
+        background: #ede9fe;
+        color: #5b21b6;
+      }
+    }
+
+    .conteudo {
+      p {
+        font-size: 12px;
+        color: #64748b;
+      }
+      .numero {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1e3a8a;
+      }
+    }
+  }
+}

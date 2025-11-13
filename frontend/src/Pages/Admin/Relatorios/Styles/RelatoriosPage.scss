@@ -1,0 +1,91 @@
+.pagina-relatorios {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f6f8ff, #eef4ff);
+  font-family: "Inter", sans-serif;
+  color: #1e1b4b;
+}
+
+.pagina-relatorios.sidebar-aberta .conteudo-principal {
+  margin-left: 256px;
+}
+
+.pagina-relatorios.sidebar-colapsada .conteudo-principal {
+  margin-left: 96px;
+}
+
+@media (max-width: 1024px) {
+  .pagina-relatorios .conteudo-principal {
+    margin-left: 0;
+  }
+}
+
+.conteudo-principal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.conteudo-relatorios {
+  padding: 40px;
+}
+
+.cabecalho-relatorios {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.titulo-relatorios h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 4px;
+}
+
+.titulo-relatorios p {
+  color: #60a5fa;
+  font-size: 15px;
+}
+
+.acoes-relatorios {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.botao-primario {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 19px;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  color: #ffffff;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.2);
+  transition: all 0.25s ease;
+}
+
+.botao-primario:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.botao-primario:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+}
+
+.graficos-relatorios,
+.graficos-relatorios-adicionais {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 32px;
+}

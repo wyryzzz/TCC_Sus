@@ -1,0 +1,58 @@
+.tabela-container {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+
+    th,
+    td {
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: #f9fafb;
+    }
+  }
+
+  .medico-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .crm {
+      font-size: 0.75rem;
+      color: #6b7280;
+      font-weight: 400;
+    }
+  }
+
+  .acoes button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 6px;
+
+    &.delete {
+      color: #ef4444;
+    }
+  }
+}
+
+.estado-vazio {
+  text-align: center;
+  padding: 40px;
+  color: #475569;
+}

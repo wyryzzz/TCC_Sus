@@ -1,0 +1,16 @@
+.pagina-pacientes {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fbff, #eef5ff);
+
+  .conteudo-principal {
+    margin-left: 256px;
+    transition: margin 0.3s ease-in-out;
+    main {
+      padding: 22px; 
+    }
+  }
+
+  &.sidebar-colapsada .conteudo-principal {
+    margin-left: 96px;
+  }
+}

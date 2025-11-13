@@ -1,0 +1,68 @@
+.modal-editar-funcionario {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-conteudo {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #1e293b;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 1rem;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    margin-top: 0.3rem;
+  }
+
+  .btn-salvar {
+    margin-top: 1.5rem;
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #1e40af;
+    }
+  }
+
+  .fechar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+  }
+}

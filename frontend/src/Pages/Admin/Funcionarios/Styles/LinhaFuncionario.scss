@@ -1,0 +1,84 @@
+.info-funcionario {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .icone-circulo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nome-func {
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .cargo-func {
+    font-size: 14px;
+    color: #64748b;
+  }
+}
+
+.rotulo-tipo,
+.rotulo-status {
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tipo-azul {
+  background: #e0ecff;
+  color: #2563eb;
+}
+
+.tipo-verde {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.tipo-roxo {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.tipo-cinza {
+  background: #f4f6f8;
+  color: #6b7280;
+}
+
+.status-verde {
+  background: #d1fae5;
+  color: #15803d;
+}
+
+.status-vermelho {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.botoes-acoes {
+  display: flex;
+  gap: 6px;
+
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #475569;
+    transition: 0.2s;
+
+    &:hover {
+      color: #1e3a8a;
+    }
+  }
+}

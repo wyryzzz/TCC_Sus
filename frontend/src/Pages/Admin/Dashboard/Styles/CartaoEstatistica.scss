@@ -1,0 +1,60 @@
+.cartao-estatistica {
+  flex: 1 1 250px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #dbeafe;
+  padding: 24px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.08);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
+  }
+
+  .conteudo-cartao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .titulo-cartao {
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  .valor-cartao {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-top: 4px;
+  }
+
+  .icone-cartao {
+    padding: 12px;
+    border-radius: 8px;
+
+    &.azul {
+      background: #3b82f6;
+    }
+    &.verde {
+      background: #10b981;
+    }
+    &.roxo {
+      background: #6366f1;
+    }
+    &.laranja {
+      background: #f59e0b;
+    }
+
+    .icone {
+      color: #fff;
+    }
+  }
+}

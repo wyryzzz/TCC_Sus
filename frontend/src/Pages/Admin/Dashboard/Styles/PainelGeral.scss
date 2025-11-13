@@ -1,0 +1,44 @@
+.painel-geral {
+  display: flex;
+  min-height: 100vh;
+  background: #f3f4f6;
+  transition: all 0.3s ease;
+
+  &.sidebar-aberta .conteudo-principal {
+    margin-left: 256px; 
+  }
+
+  &.sidebar-colapsada .conteudo-principal {
+    margin-left: 96px; 
+  }
+}
+
+.conteudo-principal {
+  flex: 1;
+}
+
+.conteudo-dashboard {
+  padding: 24px;
+
+  @media (max-width: 480px) {
+    padding: 16px; 
+  }
+}
+
+.boas-vindas {
+  margin-bottom: 32px; 
+
+  h1 {
+    font-size: 30px; 
+    font-weight: 700;
+    color: #111827;
+
+    @media (max-width: 768px) {
+      font-size: 24px; 
+    }
+  }
+
+  p {
+    color: #4b5563;
+  }
+}

@@ -1,0 +1,74 @@
+.tabela-container {
+background-color: #fff;
+border-radius: 13px;
+box-shadow: 0 3px 8px rgba(37, 99, 235, 0.05);
+overflow-x: auto;
+
+.tabela-medicamentos {
+width: 100%;
+border-collapse: collapse;
+min-width: 700px;
+
+th, td {
+  padding: 14px 19px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e9ff;
+}
+
+th {
+  color: #1e40af;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  background-color: #f5f8ff;
+}
+
+tr:hover td {
+  background-color: #f0f6ff;
+}
+
+.celula-medicamento {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .icone-medicamento {
+    color: #5a8bff;
+  }
+
+  .nome-medicamento {
+    font-weight: 600;
+    color: #1e3a8a;
+  }
+
+  .principio-ativo {
+    font-size: 12px;
+    color: #64748b;
+  }
+}
+
+.acoes button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 8px;
+  color: #1e3a8a;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #5a8bff;
+  }
+}
+
+}
+
+.estado-carregando,
+.estado-erro {
+background-color: #fff;
+border-radius: 12px;
+padding: 24px;
+text-align: center;
+box-shadow: 0 2px 6px rgba(37, 99, 235, 0.05);
+}
+}

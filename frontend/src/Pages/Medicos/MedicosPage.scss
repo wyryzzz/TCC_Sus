@@ -1,0 +1,413 @@
+.medico-dashboard {
+  font-family: "Poppins", sans-serif;
+  background: #f7fafc;
+  color: #000000;
+  width: 100%;
+  animation: fadeIn 0.5s ease;
+}
+
+
+.perfil-medico {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0; 
+  transition: 0.3s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .perfil-link {
+    font-weight: 600;
+    color: #0077cc;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .dados {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+    color: #242424;
+
+    p {
+      flex: 1 1 150px;
+      margin: 0.4rem 0;
+      color: #242424;
+    }
+  }
+
+  .email {
+    font-size: 0.9rem;
+    color: #1a1515;
+  }
+}
+
+.bloco {
+  margin: 55px;
+}
+
+.cards-resumo {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 0 2rem; 
+  flex-wrap: wrap;
+
+  .card {
+    flex: 1 1 200px;
+    padding: 1rem;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      transform: scale(1.04);
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    span {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    &.azul {
+      background: #47b5ff;
+    }
+
+    &.verde {
+      background: #6ddccf;
+    }
+
+    &.roxo {
+      background: #8e7fff;
+    }
+
+    &.laranja {
+      background: #f6b36f;
+    }
+  }
+}
+
+.proximos-atendimentos {
+  background: #fff;
+  margin: 2rem 0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #242424;
+  }
+
+  .atendimento {
+    border-top: 1px solid #eee;
+    padding: 1rem 0;
+
+    .linha {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      p {
+        color: #242424;
+      }
+
+      .status {
+        padding: 0.3rem 0.8rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        color: #fff;
+
+        &.normal {
+          background: #47b5ff;
+        }
+
+        &.alta {
+          background: #ff6b6b;
+        }
+
+        &.urgente {
+          background: #ff9f43;
+        }
+      }
+    }
+
+    .obs {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #242424;
+    }
+
+    .prescricoes-consulta {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border-left: 3px solid #2196F3;
+
+      p {
+        margin: 0.2rem 0;
+        font-size: 0.85rem;
+        color: #333;
+      }
+
+      .prescricao-item {
+        margin-left: 1rem;
+        font-size: 0.8rem;
+        color: #555;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+.meus-pacientes {
+  background: #fff;
+  margin: 2rem 0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  p {
+    color: #242424;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #242424;
+  }
+
+  .paciente {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #242424;
+
+    .fone {
+      color: #242424;
+      font-size: 0.9rem;
+    }
+
+    .alergias {
+      color: #d9534f;
+      font-size: 0.9rem;
+    }
+
+    p {
+      margin: 0.2rem 0;
+    }
+  }
+}
+
+
+@media (max-width: 1024px) {
+  .medico-dashboard {
+    padding: 0 2rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-resumo {
+    flex-direction: column;
+  }
+
+  .paciente {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .medico-dashboard {
+    padding: 0 1rem 2rem;
+  }
+}
+
+.conteudo {
+  margin: 2rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .conteudo {
+    margin: 1rem;
+  }
+}
+
+.acoes-rapidas {
+  background: #fff;
+  margin: 2rem 0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  .btn-agendar {
+    background: #47b5ff;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: #3a9be0;
+      transform: translateY(-2px);
+    }
+  }
+
+  .btn-prescrever {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: #1976D2;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.modal-consulta-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-consulta {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+
+  .fechar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  h2 {
+    margin-bottom: 0.5rem;
+    color: #242424;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    color: #666;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #242424;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #47b5ff;
+        box-shadow: 0 0 0 2px rgba(71, 181, 255, 0.2);
+      }
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &.cancel {
+        background: #f8f9fa;
+        color: #666;
+        border: 1px solid #ddd;
+
+        &:hover {
+          background: #e9ecef;
+        }
+      }
+
+      &.submit {
+        background: #47b5ff;
+        color: white;
+
+        &:hover {
+          background: #3a9be0;
+        }
+      }
+    }
+  }
+}
+

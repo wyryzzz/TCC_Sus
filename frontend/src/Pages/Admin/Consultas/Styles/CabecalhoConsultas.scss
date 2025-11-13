@@ -1,0 +1,37 @@
+.cabecalho-consultas {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  .titulo {
+    h1 {
+      font-size: 28px;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    p {
+      color: #475569;
+    }
+  }
+
+  .botao-adicionar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: linear-gradient(90deg, #1d4ed8, #1e40af);
+    }
+  }
+}

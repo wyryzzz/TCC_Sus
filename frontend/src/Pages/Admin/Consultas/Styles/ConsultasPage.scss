@@ -1,0 +1,30 @@
+.painel-geral {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fbff, #eaf3ff);
+  transition: all 0.3s ease;
+}
+
+.conteudo-principal {
+  flex: 1;
+  transition: margin-left 0.3s ease;
+  margin-left: 256px;
+
+  &.menu-colapsado {
+    margin-left: 96px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .conteudo-principal {
+    margin-left: 0 !important;
+  }
+}
+
+.conteudo-consultas {
+  padding: 24px;
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+}

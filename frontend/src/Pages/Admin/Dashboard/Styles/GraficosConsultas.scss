@@ -1,0 +1,16 @@
+.grafico-simples {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.08);
+  width: 100%;
+  max-width: 880px;
+
+  .titulo-grafico {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 16px;
+  }
+}

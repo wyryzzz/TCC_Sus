@@ -1,0 +1,48 @@
+.atividades-recentes {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.08);
+
+  .titulo-atividades {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 16px;
+  }
+
+  .lista-atividades {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .item-atividade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #eff6ff;
+    }
+
+    .info-atividade {
+      flex: 1;
+
+      .paciente {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1e3a8a;
+      }
+
+      .horario {
+        font-size: 12px;
+        color: #64748b;
+      }
+    }
+  }
+}

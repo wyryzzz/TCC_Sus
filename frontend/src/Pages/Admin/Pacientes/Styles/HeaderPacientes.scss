@@ -1,0 +1,34 @@
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+
+  h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1e3a8a;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 15px;
+  }
+
+  .botao-novo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #2563eb;
+      transform: translateY(-2px);
+    }
+  }
+}

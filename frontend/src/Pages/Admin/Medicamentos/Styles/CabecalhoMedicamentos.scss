@@ -1,0 +1,38 @@
+.cabecalho-medicamentos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1e3a8a;
+    }
+
+    p {
+        color: #64748b;
+        font-size: 15px;
+    }
+
+    .botao-novo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 19px;
+        background: linear-gradient(135deg, #7da6ff, #5a8bff);
+        color: #fff;
+        border-radius: 10px;
+        font-weight: 500;
+        box-shadow: 0 3px 8px rgba(90, 139, 255, 0.2);
+        transition: all 0.25s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #5a8bff, #3b74ff);
+        }
+
+
+    }
+}

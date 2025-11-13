@@ -1,0 +1,30 @@
+.pagina-medicamentos {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f9fbff, #f1f6ff);
+    font-family: "Inter", sans-serif;
+    color: #1e3a8a;
+    display: flex;
+}
+
+.pagina-medicamentos.sidebar-aberta .conteudo-principal {
+    margin-left: 256px;
+}
+
+.pagina-medicamentos.sidebar-colapsada .conteudo-principal {
+    margin-left: 96px;
+}
+
+@media (max-width: 1024px) {
+    .pagina-medicamentos .conteudo-principal {
+        margin-left: 0;
+    }
+}
+
+.conteudo-principal {
+    flex: 1;
+    transition: margin 0.3s ease;
+}
+
+.conteudo {
+    padding: 40px;
+}

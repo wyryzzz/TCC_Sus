@@ -1,0 +1,21 @@
+.grafico-consultas {
+  flex: 1 1 400px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #e0e7ff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.05);
+}
+
+.titulo-grafico {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.titulo-grafico h3 {
+  font-weight: 600;
+  font-size: 18px;
+  color: #1e3a8a;
+}
