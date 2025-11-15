@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Eye, EyeOff, ArrowLeft, User, Mail, Lock, UserCheck, CheckCircle2 } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft, User, Mail, Lock } from "lucide-react";
 import { toast } from "sonner";
 import api from "../../api";
 import logo from "../../assets/images/logo.png";
@@ -13,7 +13,6 @@ export default function CadastroPage() {
     email: "",
     senha: "",
     confirmarSenha: "",
-    tipo_usuario: "paciente",
   });
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
@@ -57,14 +56,14 @@ export default function CadastroPage() {
 
     setLoading(true);
     try {
+      // Cadastro público - apenas pacientes
       const payload = {
         nome: form.nome,
         email: form.email,
         senha: form.senha,
-        tipo_usuario: form.tipo_usuario,
       };
 
-      // Primeiro, criar a conta de usuário
+      // Criar a conta de usuário (sempre será paciente)
       await api.post("/criar/conta", payload);
 
       // Fazer login automático para obter token
@@ -79,87 +78,25 @@ export default function CadastroPage() {
       localStorage.setItem("token", loginResponse.data.token);
       localStorage.setItem("usuario", JSON.stringify(loginResponse.data.usuario));
 
-      // Se for paciente, cadastrar na tabela pacientes com o token
-      if (form.tipo_usuario === "paciente") {
-        const pacientePayload = {
-          nome: form.nome,
-          email: form.email,
-          cpf: null, // CPF opcional no cadastro público
-          data_nascimento: null,
-          endereco: null,
-          telefone: null,
-          cartao_sus: null,
-          tipo_sanguineo: null,
-          alergias: null,
-          contato_emergencia: null,
-        };
+      // Cadastrar na tabela pacientes
+      const pacientePayload = {
+        nome: form.nome,
+        email: form.email,
+        cpf: null, // CPF opcional no cadastro público
+        data_nascimento: null,
+        endereco: null,
+        telefone: null,
+        cartao_sus: null,
+        tipo_sanguineo: null,
+        alergias: null,
+        contato_emergencia: null,
+      };
 
-        await api.post("/pacientes", pacientePayload);
-      }
-
-      // Se for médico, cadastrar na tabela medicos com o token
-      if (form.tipo_usuario === "medico") {
-        try {
-          // Primeiro, tentar criar funcionário
-          const funcionarioPayload = {
-            nome: form.nome,
-            email: form.email,
-            cpf: null, // CPF opcional
-            departamento: "Medicina",
-            salario: 0, // Será definido depois
-            cargo: "Médico",
-            telefone: null,
-            endereco: null,
-            funcionario_ativo: true,
-            data_admissao: new Date().toISOString().split("T")[0],
-          };
-
-          let idFuncionario = null;
-          try {
-            const resFuncionario = await api.post("/funcionarios", funcionarioPayload);
-            idFuncionario = resFuncionario.data.id;
-          } catch (erroFuncionario) {
-            console.warn("Funcionário já existe ou erro ao criar:", erroFuncionario.message);
-            // Tentar buscar funcionário existente pelo email
-            try {
-              const resBusca = await api.get("/filtrarNome/funcionarios", { params: { nome: form.nome } });
-              if (resBusca.data.dados && resBusca.data.dados.length > 0) {
-                idFuncionario = resBusca.data.dados[0].id;
-              }
-            } catch (erroBusca) {
-              console.warn("Erro ao buscar funcionário existente:", erroBusca.message);
-            }
-          }
-
-          // Depois, tentar cadastrar médico
-          const medicoPayload = {
-            id_funcionario: idFuncionario,
-            nome: form.nome,
-            email: form.email,
-            telefone: null,
-            salario: 0,
-            crm: null,
-            id_especialidade: null,
-          };
-
-          await api.post("/medicos", medicoPayload);
-        } catch (erroMedico) {
-          console.warn("Erro ao criar médico:", erroMedico.message);
-          // Médico pode já existir, não falhar o cadastro
-        }
-      }
+      await api.post("/pacientes", pacientePayload);
 
       toast.success("Conta criada com sucesso! Redirecionando...");
       setTimeout(() => {
-        if (form.tipo_usuario === "paciente") {
-          navigate("/PacientesPage"); // Redirecionar para página do paciente
-        } else if (form.tipo_usuario === "admin") {
-          navigate("/dashboard"); // Admin vai para dashboard
-        } else if (form.tipo_usuario === "medico") {
-          navigate("/medicospage"); // Médico vai para página de médicos
-        } else {
-          navigate("/login"); // Fallback para login
-        }
+        navigate("/PacientesPage"); // Redirecionar para página do paciente
       }, 1500);
     } catch (erro) {
       console.error("Erro ao cadastrar:", erro);
@@ -222,23 +159,6 @@ export default function CadastroPage() {
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">
-                <UserCheck size={18} className="label-icon" />
-                Tipo de Usuário *
-              </label>
-              <select
-                name="tipo_usuario"
-                value={form.tipo_usuario}
-                onChange={handleChange}
-                required
-                className="form-select"
-              >
-                <option value="paciente">Paciente</option>
-                <option value="medico">Médico</option>
-                <option value="admin">Administrador</option>
-              </select>
-            </div>
 
             <div className="form-group">
               <label className="form-label">

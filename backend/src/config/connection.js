@@ -4,7 +4,7 @@ import 'dotenv/config'
 let connection = await mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Lelu*13182506",
+  password: "1234",
   database: "saudedb"
 })
 

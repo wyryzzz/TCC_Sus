@@ -16,6 +16,14 @@ export default function PacientesPa() {
     async function carregarDados() {
       try {
         const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+        
+        // Verificar se o usuário é paciente
+        if (usuario.role !== "paciente") {
+          toast.error("Acesso negado. Esta página é apenas para pacientes.");
+          navigate("/login");
+          return;
+        }
+
         const pacienteEmail = usuario.email;
 
         if (!pacienteEmail) {
@@ -24,17 +32,33 @@ export default function PacientesPa() {
           return;
         }
 
+        // Buscar paciente por email
         const resPaciente = await api.get('/pacientes/email', { params: { email: pacienteEmail } });
+        
+        if (!resPaciente.data) {
+          toast.error("Paciente não encontrado.");
+          navigate("/login");
+          return;
+        }
+
         setPaciente(resPaciente.data);
 
+        // Buscar consultas do paciente
         const resConsultas = await api.get(`/consultas/paciente/${resPaciente.data.id}`);
         setConsultas(resConsultas.data || []);
 
+        // Buscar prescrições do paciente
         const resPrescricoes = await api.get(`/pacientes/${resPaciente.data.id}/prescricoes`);
         setPrescricoes(resPrescricoes.data || []);
       } catch (erro) {
         console.error("Erro ao carregar dados:", erro);
-        toast.error("Erro ao carregar dados do paciente.");
+        const mensagem = erro.response?.data?.erro || "Erro ao carregar dados do paciente.";
+        toast.error(mensagem);
+        
+        // Se não autenticado, redirecionar para login
+        if (erro.response?.status === 401) {
+          navigate("/login");
+        }
       } finally {
         setLoading(false);
       }

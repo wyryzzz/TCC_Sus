@@ -15,7 +15,7 @@ export async function criarFuncionarioService(dados) {
   
   catch (erro) {
     console.error("Erro ao cadastrar funcionário:", erro);
-    throw new Error("Erro no cadastro de funcionário.");
+    throw new Error(erro.message || "Erro no cadastro de funcionário.");
   }
 }
 
@@ -59,7 +59,7 @@ export async function buscarFuncionarioPorCPFService(cpf) {
   }
 }
 
-export async function atualizarFuncionarioService(id, novosDados) {
+export async function atualizarFuncionarioService(novosDados, id) {
   if (!id) throw new Error("O ID do funcionário é obrigatório.");
 
   try {
@@ -73,7 +73,7 @@ export async function atualizarFuncionarioService(id, novosDados) {
   
   catch (erro) {
     console.error("Erro ao atualizar funcionário:", erro);
-    throw new Error("Erro na atualização de funcionário.");
+    throw new Error(erro.message || "Erro na atualização de funcionário.");
   }
 }
 

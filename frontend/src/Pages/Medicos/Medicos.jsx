@@ -22,6 +22,14 @@ export default function MedicosPage() {
     async function carregarDados() {
       try {
         const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+        
+        // Verificar se o usuário é médico
+        if (usuario.role !== "medico") {
+          toast.error("Acesso negado. Esta página é apenas para médicos.");
+          navigate("/login");
+          return;
+        }
+
         const medicoEmail = usuario.email;
 
         if (!medicoEmail) {
@@ -30,63 +38,53 @@ export default function MedicosPage() {
           return;
         }
 
-        // Tentar buscar dados do médico, mas não falhar se não existir
+        // Buscar médico por email
         let medicoData = null;
         try {
           const resMedico = await api.get(`/medicos/email/${medicoEmail}`);
           medicoData = resMedico.data;
         } catch (erroMedico) {
-          console.warn("Médico não encontrado na tabela medicos, usando dados básicos:", erroMedico);
-          // Usar dados do localStorage como fallback
-          medicoData = {
-            id: usuario.id,
-            id_funcionario: usuario.id, // Usar ID do usuário como fallback
-            nome: usuario.nome,
-            email: usuario.email,
-            crm: null,
-            cargo: "Médico",
-            departamento: "Medicina"
-          };
+          console.error("Erro ao buscar médico:", erroMedico);
+          toast.error("Médico não encontrado. Verifique se seu cadastro está completo.");
+          navigate("/login");
+          return;
         }
 
-        // Se ainda não temos medicoData, usar dados básicos
         if (!medicoData) {
-          medicoData = {
-            id: usuario.id,
-            id_funcionario: usuario.id,
-            nome: usuario.nome,
-            email: usuario.email,
-            crm: null,
-            cargo: "Médico",
-            departamento: "Medicina"
-          };
+          toast.error("Dados do médico não encontrados.");
+          navigate("/login");
+          return;
         }
 
         setMedico(medicoData);
 
-        // Tentar buscar consultas usando o ID do usuário como fallback
+        // Buscar consultas do médico usando id_funcionario
         let consultasData = [];
         try {
-          const funcionarioId = medicoData?.id_funcionario || medicoData?.id || usuario.id;
+          const funcionarioId = medicoData.id_funcionario;
+          if (!funcionarioId) {
+            throw new Error("ID do funcionário não encontrado.");
+          }
+          
           const resConsultas = await api.get(`/consultas/funcionario/${funcionarioId}`);
           consultasData = resConsultas.data || [];
         } catch (erroConsultas) {
-          console.warn("Erro ao carregar consultas:", erroConsultas);
-          // Consultas ficam vazias, mas não impede carregamento da tela
+          console.error("Erro ao carregar consultas:", erroConsultas);
+          toast.error("Erro ao carregar consultas.");
         }
 
         setConsultas(consultasData);
 
-        // Buscar pacientes únicos das consultas
+        // Extrair pacientes únicos das consultas
         const pacientesUnicos = [];
         const pacientesIds = new Set();
 
         consultasData.forEach(consulta => {
-          if (!pacientesIds.has(consulta.paciente_id)) {
+          if (consulta.paciente_id && !pacientesIds.has(consulta.paciente_id)) {
             pacientesIds.add(consulta.paciente_id);
             pacientesUnicos.push({
               id: consulta.paciente_id,
-              nome: consulta.nome_paciente
+              nome: consulta.nome_paciente || "Paciente não identificado"
             });
           }
         });
@@ -98,20 +96,26 @@ export default function MedicosPage() {
           const resPacientes = await api.get("/pacientes");
           setPacientesDisponiveis(resPacientes.data || []);
         } catch (erroPacientes) {
-          console.warn("Erro ao carregar pacientes disponíveis:", erroPacientes);
+          console.error("Erro ao carregar pacientes disponíveis:", erroPacientes);
         }
 
-        // Carregar medicamentos disponíveis para prescrição
+        // Carregar medicamentos disponíveis
         try {
           const resMedicamentos = await api.get("/medicamentos");
           setMedicamentosDisponiveis(resMedicamentos.data || []);
         } catch (erroMedicamentos) {
-          console.warn("Erro ao carregar medicamentos disponíveis:", erroMedicamentos);
+          console.error("Erro ao carregar medicamentos disponíveis:", erroMedicamentos);
         }
 
       } catch (erro) {
         console.error("Erro geral ao carregar dados:", erro);
-        toast.error("Erro ao carregar dados. Alguns dados podem não estar disponíveis.");
+        const mensagem = erro.response?.data?.erro || "Erro ao carregar dados.";
+        toast.error(mensagem);
+        
+        // Se não autenticado, redirecionar para login
+        if (erro.response?.status === 401) {
+          navigate("/login");
+        }
       } finally {
         setLoading(false);
       }
@@ -127,24 +131,34 @@ export default function MedicosPage() {
 
   async function agendarConsulta(dadosConsulta) {
     try {
-      await api.post("/consultas", dadosConsulta);
+      if (!medico?.id_funcionario) {
+        toast.error("Dados do médico não encontrados.");
+        return;
+      }
+
+      // Garantir que funcionario_id está correto
+      const dadosComFuncionario = {
+        ...dadosConsulta,
+        funcionario_id: medico.id_funcionario
+      };
+
+      await api.post("/consultas", dadosComFuncionario);
       toast.success("Consulta agendada com sucesso!");
 
       // Recarregar consultas
-      const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
-      const funcionarioId = medico?.id_funcionario || medico?.id || usuario.id;
-      const resConsultas = await api.get(`/consultas/funcionario/${funcionarioId}`);
-      setConsultas(resConsultas.data || []);
+      const resConsultas = await api.get(`/consultas/funcionario/${medico.id_funcionario}`);
+      const novasConsultas = resConsultas.data || [];
+      setConsultas(novasConsultas);
 
       // Atualizar pacientes únicos
       const pacientesUnicos = [];
       const pacientesIds = new Set();
-      resConsultas.data.forEach(consulta => {
-        if (!pacientesIds.has(consulta.paciente_id)) {
+      novasConsultas.forEach(consulta => {
+        if (consulta.paciente_id && !pacientesIds.has(consulta.paciente_id)) {
           pacientesIds.add(consulta.paciente_id);
           pacientesUnicos.push({
             id: consulta.paciente_id,
-            nome: consulta.nome_paciente
+            nome: consulta.nome_paciente || "Paciente não identificado"
           });
         }
       });
@@ -152,7 +166,8 @@ export default function MedicosPage() {
 
     } catch (erro) {
       console.error("Erro ao agendar consulta:", erro);
-      toast.error("Erro ao agendar consulta. Tente novamente.");
+      const mensagem = erro.response?.data?.erro || "Erro ao agendar consulta. Tente novamente.";
+      toast.error(mensagem);
     }
   }
 
@@ -332,7 +347,7 @@ export default function MedicosPage() {
             onClose={() => setModalConsulta(false)}
             onSalvar={agendarConsulta}
             pacientes={pacientesDisponiveis}
-            medicoId={medico?.id_funcionario || medico?.id || usuario.id}
+            medicoId={medico?.id_funcionario}
           />
         )}
 

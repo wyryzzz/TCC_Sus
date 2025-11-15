@@ -7,6 +7,7 @@ import RelatoriosPage from "./Pages/Admin/Relatorios/Components/RelatoriosPage";
 import MedicamentosPage from "./Pages/Admin/Medicamentos/Components/MedicamentosPage";
 import LoginPage from "./Pages/Login/LoginPage";
 import CadastroPage from "./Pages/Cadastro/CadastroPage";
+import CadastroAdminPage from "./Pages/Admin/Cadastro/CadastroAdminPage";
 import RotaProtegida from "./RotaProtegida";
 import PacientesPag from "./Pages/Pacientes/Pacentes";
 import ConsultasPage from "./Pages/Admin/Consultas/Components/App";
@@ -66,6 +67,12 @@ export default function Navegacao() {
         <Route path="/consultas" element={
           <RotaProtegida>
             <ConsultasPage />
+          </RotaProtegida>
+        } />
+
+        <Route path="/admin/cadastro" element={
+          <RotaProtegida>
+            <CadastroAdminPage />
           </RotaProtegida>
         } />
 

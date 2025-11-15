@@ -7,6 +7,8 @@ import UsuarioController from './controllers/UsuarioController.js'
 import PrescricoesController from './controllers/PrescricoesController.js'
 import EstatisticasController from './controllers/EstatisticasController.js'
 import MedicoController from './controllers/MedicoController.js'
+import AdminController from './controllers/AdminController.js'
+
 export function adicionarRotas(api) {
   api.use(PacienteController);
   api.use(UnidadeSaudeController);
@@ -17,4 +19,5 @@ export function adicionarRotas(api) {
   api.use(PrescricoesController)
   api.use(EstatisticasController)
   api.use(MedicoController)
+  api.use(AdminController)
 }

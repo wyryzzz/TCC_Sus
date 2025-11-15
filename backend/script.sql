@@ -20,6 +20,8 @@ create table funcionarios (
     data_admissao date
 );
 
+
+
 create table especialidades (
     id int auto_increment primary key,
     nome varchar(50) not null,
@@ -36,10 +38,12 @@ create table medicos (
     salario decimal(10,2),
     crm varchar(50) not null unique,
     id_especialidade int,
+    usuario_id int,
     foreign key (id_funcionario) references funcionarios(id)
         on delete cascade on update cascade,
     foreign key (id_especialidade) references especialidades(id)
-        on delete set null on update cascade
+        on delete set null on update cascade,
+    foreign key (usuario_id) references usuario(id) on delete set null
 );
 
 create table pacientes (
@@ -54,7 +58,9 @@ create table pacientes (
     tipo_sanguineo varchar(5),
     alergias varchar(255),
     contato_emergencia varchar(100),
-    status enum('ativo','inativo') default 'ativo'
+    status enum('ativo','inativo') default 'ativo',
+    usuario_id int,
+    foreign key (usuario_id) references usuario(id) on delete set null
 );
 
 create table unidades_saude (
@@ -70,7 +76,7 @@ create table consultas (
     data_hora datetime not null,
     tipo_consulta varchar(100),
     unidade varchar(100),
-    status enum('Agendada','Confirmada','Em Andamento','Concluída') default 'Agendada',
+    status enum('Agendada','Confirmada','Em Andamento','Concluída','Cancelada') default 'Agendada',
     foreign key (paciente_id) references pacientes(id) on delete cascade,
     foreign key (funcionario_id) references funcionarios(id) on delete cascade
 );
@@ -104,9 +110,11 @@ create table prescricoes (
 create table usuario (
     id int primary key auto_increment,
     nome varchar(100) not null,
-    email varchar(255) unique,
+    email varchar(255) unique not null,
     senha varchar(255) not null,
-    tipo_usuario enum('admin','paciente','medico','user') default 'user'
+    tipo_usuario enum('admin','paciente','medico','user') default 'user',
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp on update current_timestamp
 );
 
 create table consultas_por_mes (
@@ -236,26 +244,26 @@ INSERT INTO medicos (id_funcionario, nome, email, telefone, salario, crm, id_esp
 (4, 'Dra. Vanessa Cruz', 'vanessa.cruz@saude.com', '(11) 98765-5012', 17600.00, 'CRM/SP 242526', 4);
 
 INSERT INTO pacientes (nome, cpf, cartao_sus, data_nascimento, telefone, email, endereco, tipo_sanguineo, alergias, contato_emergencia, status) VALUES
-('José Santos Silva', '111.222.333-44', '123456789012345', '1965-03-15', '(11) 91234-5678', 'jose.santos@email.com', 'Rua das Flores, 123 - São Paulo/SP', 'O+', 'Nenhuma', '(11) 91234-5679', 'Inativo'),
-('Maria Aparecida Oliveira', '222.333.444-55', '234567890123456', '1972-08-22', '(11) 92345-6789', 'maria.oliveira@email.com', 'Av. Paulista, 456 - São Paulo/SP', 'A+', 'Penicilina', '(11) 92345-6790', 'Ativo'),
-('Antonio Carlos Souza', '333.444.555-66', '345678901234567', '1958-11-10', '(11) 93456-7890', 'antonio.souza@email.com', 'Rua Augusta, 789 - São Paulo/SP', 'B+', 'Dipirona', '(11) 93456-7891', 'Ativo'),
-('Francisca Lima', '444.555.666-77', '456789012345678', '1980-05-18', '(11) 94567-8901', 'francisca.lima@email.com', 'Rua Consolação, 321 - São Paulo/SP', 'AB+', 'Nenhuma', '(11) 94567-8902', 'Ativo'),
-('Paulo Roberto Alves', '555.666.777-88', '567890123456789', '1963-12-25', '(11) 95678-9012', 'paulo.alves@email.com', 'Av. Rebouças, 654 - São Paulo/SP', 'O-', 'Lactose', '(11) 95678-9013', 'Ativo'),
-('Ana Paula Costa', '666.777.888-99', '678901234567890', '1990-07-08', '(11) 96789-0123', 'ana.costa@email.com', 'Rua Vergueiro, 987 - São Paulo/SP', 'A-', 'Nenhuma', '(11) 96789-0124', 'Ativo'),
-('Carlos Eduardo Martins', '777.888.999-00', '789012345678901', '1975-02-14', '(11) 97890-1234', 'carlos.martins@email.com', 'Rua da Mooca, 147 - São Paulo/SP', 'B-', 'AAS', '(11) 97890-1235', 'Ativo'),
-('Mariana Silva Santos', '888.999.000-11', '890123456789012', '1988-09-30', '(11) 98901-2345', 'mariana.santos@email.com', 'Av. Ipiranga, 258 - São Paulo/SP', 'AB-', 'Nenhuma', '(11) 98901-2346', 'Ativo'),
-('Roberto Ferreira Lima', '999.000.111-22', '901234567890123', '1955-04-12', '(11) 99012-3456', 'roberto.lima@email.com', 'Rua Barão de Itapetininga, 369 - São Paulo/SP', 'O+', 'Iodo', '(11) 99012-3457', 'Ativo'),
-('Juliana Rodrigues', '000.111.222-33', '012345678901234', '1995-06-20', '(11) 90123-4567', 'juliana.rodrigues@email.com', 'Av. São João, 741 - São Paulo/SP', 'A+', 'Nenhuma', '(11) 90123-4568', 'Ativo'),
-('Fernando Oliveira', '111.222.333-45', '123456789012346', '1968-01-30', '(11) 91234-5680', 'fernando.oliveira@email.com', 'Rua Boa Vista, 852 - São Paulo/SP', 'B+', 'Nenhuma', '(11) 91234-5681', 'Ativo'),
-('Sandra Pereira', '222.333.444-56', '234567890123457', '1983-10-05', '(11) 92345-6791', 'sandra.pereira@email.com', 'Av. Brigadeiro, 963 - São Paulo/SP', 'O+', 'Glúten', '(11) 92345-6792', 'Ativo'),
-('Ricardo Mendes', '333.444.555-67', '345678901234568', '1970-07-19', '(11) 93456-7892', 'ricardo.mendes@email.com', 'Rua Liberdade, 159 - São Paulo/SP', 'A-', 'Nenhuma', '(11) 93456-7893', 'Ativo'),
-('Patrícia Almeida', '444.555.666-78', '456789012345679', '1992-04-27', '(11) 94567-8903', 'patricia.almeida@email.com', 'Av. Ibirapuera, 753 - São Paulo/SP', 'AB+', 'Frutos do mar', '(11) 94567-8904', 'Ativo'),
-('Marcos Vieira', '555.666.777-89', '567890123456780', '1960-11-16', '(11) 95678-9014', 'marcos.vieira@email.com', 'Rua Pinheiros, 357 - São Paulo/SP', 'O-', 'Nenhuma', '(11) 95678-9015', 'Ativo'),
-('Luciana Campos', '666.777.888-90', '678901234567891', '1986-03-08', '(11) 96789-0125', 'luciana.campos@email.com', 'Av. Faria Lima, 951 - São Paulo/SP', 'B+', 'Dipirona', '(11) 96789-0126', 'Ativo'),
-('Diego Souza', '777.888.999-01', '789012345678902', '1978-12-23', '(11) 97890-1236', 'diego.souza@email.com', 'Rua Tatuapé, 456 - São Paulo/SP', 'A+', 'Nenhuma', '(11) 97890-1237', 'Ativo'),
-('Camila Ribeiro', '888.999.000-12', '890123456789013', '1993-08-14', '(11) 98901-2347', 'camila.ribeiro@email.com', 'Av. Santo Amaro, 789 - São Paulo/SP', 'AB-', 'Penicilina', '(11) 98901-2348', 'Ativo'),
-('Rafael Costa', '999.000.111-23', '901234567890124', '1967-05-29', '(11) 99012-3458', 'rafael.costa@email.com', 'Rua Vila Mariana, 321 - São Paulo/SP', 'O+', 'Nenhuma', '(11) 99012-3459', 'Ativo'),
-('Beatriz Martins', '000.111.222-34', '012345678901235', '1985-02-11', '(11) 90123-4569', 'beatriz.martins@email.com', 'Av. Jabaquara, 654 - São Paulo/SP', 'B-', 'Lactose', '(11) 90123-4570', 'Ativo');
+('José Santos Silva', '111.222.333-44', '123456789012345', '1965-03-15', '(11) 91234-5678', 'jose.santos@email.com', 'Rua das Flores, 123 - São Paulo/SP', 'O+', 'Nenhuma', '(11) 91234-5679', 'inativo'),
+('Maria Aparecida Oliveira', '222.333.444-55', '234567890123456', '1972-08-22', '(11) 92345-6789', 'maria.oliveira@email.com', 'Av. Paulista, 456 - São Paulo/SP', 'A+', 'Penicilina', '(11) 92345-6790', 'ativo'),
+('Antonio Carlos Souza', '333.444.555-66', '345678901234567', '1958-11-10', '(11) 93456-7890', 'antonio.souza@email.com', 'Rua Augusta, 789 - São Paulo/SP', 'B+', 'Dipirona', '(11) 93456-7891', 'ativo'),
+('Francisca Lima', '444.555.666-77', '456789012345678', '1980-05-18', '(11) 94567-8901', 'francisca.lima@email.com', 'Rua Consolação, 321 - São Paulo/SP', 'AB+', 'Nenhuma', '(11) 94567-8902', 'ativo'),
+('Paulo Roberto Alves', '555.666.777-88', '567890123456789', '1963-12-25', '(11) 95678-9012', 'paulo.alves@email.com', 'Av. Rebouças, 654 - São Paulo/SP', 'O-', 'Lactose', '(11) 95678-9013', 'ativo'),
+('Ana Paula Costa', '666.777.888-99', '678901234567890', '1990-07-08', '(11) 96789-0123', 'ana.costa@email.com', 'Rua Vergueiro, 987 - São Paulo/SP', 'A-', 'Nenhuma', '(11) 96789-0124', 'ativo'),
+('Carlos Eduardo Martins', '777.888.999-00', '789012345678901', '1975-02-14', '(11) 97890-1234', 'carlos.martins@email.com', 'Rua da Mooca, 147 - São Paulo/SP', 'B-', 'AAS', '(11) 97890-1235', 'ativo'),
+('Mariana Silva Santos', '888.999.000-11', '890123456789012', '1988-09-30', '(11) 98901-2345', 'mariana.santos@email.com', 'Av. Ipiranga, 258 - São Paulo/SP', 'AB-', 'Nenhuma', '(11) 98901-2346', 'ativo'),
+('Roberto Ferreira Lima', '999.000.111-22', '901234567890123', '1955-04-12', '(11) 99012-3456', 'roberto.lima@email.com', 'Rua Barão de Itapetininga, 369 - São Paulo/SP', 'O+', 'Iodo', '(11) 99012-3457', 'ativo'),
+('Juliana Rodrigues', '000.111.222-33', '012345678901234', '1995-06-20', '(11) 90123-4567', 'juliana.rodrigues@email.com', 'Av. São João, 741 - São Paulo/SP', 'A+', 'Nenhuma', '(11) 90123-4568', 'ativo'),
+('Fernando Oliveira', '111.222.333-45', '123456789012346', '1968-01-30', '(11) 91234-5680', 'fernando.oliveira@email.com', 'Rua Boa Vista, 852 - São Paulo/SP', 'B+', 'Nenhuma', '(11) 91234-5681', 'ativo'),
+('Sandra Pereira', '222.333.444-56', '234567890123457', '1983-10-05', '(11) 92345-6791', 'sandra.pereira@email.com', 'Av. Brigadeiro, 963 - São Paulo/SP', 'O+', 'Glúten', '(11) 92345-6792', 'ativo'),
+('Ricardo Mendes', '333.444.555-67', '345678901234568', '1970-07-19', '(11) 93456-7892', 'ricardo.mendes@email.com', 'Rua Liberdade, 159 - São Paulo/SP', 'A-', 'Nenhuma', '(11) 93456-7893', 'ativo'),
+('Patrícia Almeida', '444.555.666-78', '456789012345679', '1992-04-27', '(11) 94567-8903', 'patricia.almeida@email.com', 'Av. Ibirapuera, 753 - São Paulo/SP', 'AB+', 'Frutos do mar', '(11) 94567-8904', 'ativo'),
+('Marcos Vieira', '555.666.777-89', '567890123456780', '1960-11-16', '(11) 95678-9014', 'marcos.vieira@email.com', 'Rua Pinheiros, 357 - São Paulo/SP', 'O-', 'Nenhuma', '(11) 95678-9015', 'ativo'),
+('Luciana Campos', '666.777.888-90', '678901234567891', '1986-03-08', '(11) 96789-0125', 'luciana.campos@email.com', 'Av. Faria Lima, 951 - São Paulo/SP', 'B+', 'Dipirona', '(11) 96789-0126', 'ativo'),
+('Diego Souza', '777.888.999-01', '789012345678902', '1978-12-23', '(11) 97890-1236', 'diego.souza@email.com', 'Rua Tatuapé, 456 - São Paulo/SP', 'A+', 'Nenhuma', '(11) 97890-1237', 'ativo'),
+('Camila Ribeiro', '888.999.000-12', '890123456789013', '1993-08-14', '(11) 98901-2347', 'camila.ribeiro@email.com', 'Av. Santo Amaro, 789 - São Paulo/SP', 'AB-', 'Penicilina', '(11) 98901-2348', 'ativo'),
+('Rafael Costa', '999.000.111-23', '901234567890124', '1967-05-29', '(11) 99012-3458', 'rafael.costa@email.com', 'Rua Vila Mariana, 321 - São Paulo/SP', 'O+', 'Nenhuma', '(11) 99012-3459', 'ativo'),
+('Beatriz Martins', '000.111.222-34', '012345678901235', '1985-02-11', '(11) 90123-4569', 'beatriz.martins@email.com', 'Av. Jabaquara, 654 - São Paulo/SP', 'B-', 'Lactose', '(11) 90123-4570', 'ativo');
 
 INSERT INTO unidades_saude (nome, endereco) VALUES
 ('UBS Central', 'Av. Paulista, 1000 - São Paulo/SP'),

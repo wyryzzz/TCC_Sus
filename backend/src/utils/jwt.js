@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 
 const KEY = 'TccFrei@2025'
 
-
 export function generateToken(userInfo) {
   if (!userInfo.role)
     userInfo.role = 'user';
@@ -25,7 +24,7 @@ export function getTokenInfo(req) {
   }
 }
 
-export function getAuthentication(checkRole, throw401 = true) {  
+export function getAuthentication(throw401 = true) {  
   return (req, resp, next) => {
     try {
       let token = req.headers['x-access-token'];
@@ -33,23 +32,41 @@ export function getAuthentication(checkRole, throw401 = true) {
       if (token === undefined)
         token = req.query['x-access-token'];
     
+      if (!token) {
+        if (throw401) {
+          return resp.status(401).json({ erro: 'Token de autenticação não fornecido.' });
+        }
+        return next();
+      }
+    
       let signd = jwt.verify(token, KEY);
-    
       req.user = signd;
-      if (checkRole && !checkRole(signd) && signd.role.type !== 'admin')
-        return resp.status(403).end();
-    
       next();
     }
-    catch {
+    catch (err) {
       if (throw401) {
-        let error = new Error();
-        error.stack = 'Authentication Error: JWT must be provided';
-        resp.status(401).end();
+        return resp.status(401).json({ erro: 'Token inválido ou expirado.' });
       }
-      else {
-        next();
-      }
+      next();
     }
+  }
+}
+
+// Middleware de autorização por role
+export function requireRole(...allowedRoles) {
+  return (req, resp, next) => {
+    if (!req.user) {
+      return resp.status(401).json({ erro: 'Autenticação necessária.' });
+    }
+
+    const userRole = req.user.role;
+    
+    if (!allowedRoles.includes(userRole)) {
+      return resp.status(403).json({ 
+        erro: `Acesso negado. Apenas usuários com role: ${allowedRoles.join(', ')} podem acessar este recurso.` 
+      });
+    }
+
+    next();
   }
 }
